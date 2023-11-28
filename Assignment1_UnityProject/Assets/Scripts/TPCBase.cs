@@ -72,7 +72,6 @@ namespace PGGE
 
                     Vector3 nearestPoint = hit.collider.ClosestPoint(mPlayerTransform.position);
 
-                    // Adjust the target position to snap a little more toward the player
                     Vector3 targetPos = (nearestPoint - mPlayerTransform.position) + offsetVector;
 
                     mCameraTransform.position = Vector3.Lerp(mCameraTransform.position, targetPos, Time.deltaTime * CameraConstants.Damping);

@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
     // Implement the logic of button clicks for shooting. 
     //-----------------------------------------------------------------//
 
-    if (Input.GetButton("Fire1"))
+    if (Input.GetKeyDown(KeyCode.Mouse0))
     {
       mAttackButtons[0] = true;
       mAttackButtons[1] = false;
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
       mAttackButtons[0] = false;
     }
 
-    if (Input.GetButton("Fire2"))
+    if (Input.GetKeyDown(KeyCode.Mouse1))
     {
       mAttackButtons[0] = false;
       mAttackButtons[1] = true;
@@ -85,7 +85,7 @@ public class Player : MonoBehaviour
       mAttackButtons[1] = false;
     }
 
-    if (Input.GetButton("Fire3"))
+    if (Input.GetKeyDown(KeyCode.Mouse2))
     {
       mAttackButtons[0] = false;
       mAttackButtons[1] = false;

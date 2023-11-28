@@ -126,11 +126,12 @@ public class PlayerState_ATTACK : PlayerState
 
     public override void Enter()
     {
-        mPlayer.mAnimator.SetBool(mAttackName, true);
+        /*mPlayer.mAnimator.SetBool(mAttackName, true)*/
+        mPlayer.mAnimator.SetTrigger(mAttackName);
     }
     public override void Exit()
     {
-        mPlayer.mAnimator.SetBool(mAttackName, false);
+        /*mPlayer.mAnimator.SetTrigger(mAttackName)*/;
     }
     public override void Update()
     {
@@ -170,7 +171,7 @@ public class PlayerState_ATTACK : PlayerState
         
         // For tutor - start ---------------------------------------------//
         Debug.Log("Ammo count: " + mPlayer.mAmunitionCount + ", In Magazine: " + mPlayer.mBulletsInMagazine);
-        if (mPlayer.mBulletsInMagazine == 0 && mPlayer.mAmunitionCount > 0)
+        if (Input.GetKeyDown(KeyCode.R)/*mPlayer.mBulletsInMagazine == 0 && mPlayer.mAmunitionCount > 0*/)
         {
             mPlayer.mFsm.SetCurrentState((int)PlayerStateType.RELOAD);
             return;
