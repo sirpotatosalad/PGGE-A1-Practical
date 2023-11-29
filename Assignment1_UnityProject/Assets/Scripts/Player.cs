@@ -95,6 +95,18 @@ public class Player : MonoBehaviour
     {
       mAttackButtons[2] = false;
     }
+
+    if (Input.GetKeyDown(KeyCode.R))
+        {
+            mAnimator.SetTrigger("Reload");
+        }
+
+    if (Input.GetKeyDown(KeyCode.T))
+        {
+            mAnimator.SetTrigger("Taunt");
+        }
+
+
   }
 
   public void Aim()

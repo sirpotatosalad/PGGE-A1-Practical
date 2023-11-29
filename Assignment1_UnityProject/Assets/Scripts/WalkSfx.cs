@@ -19,8 +19,10 @@ public class WalkSfx : MonoBehaviour
 
     public void DetectGroundOnStep()
     {
+        // cast a ray downward from RayStart, ignoring all layers that are not Ground (set in inspector)
         if (Physics.Raycast(RayStart.position, RayStart.transform.up * -1, out hit, range, layerMask))
         {
+            //check for specific ground type hit by ray and pass the array of audioclips for the ground type
             if (hit.collider.CompareTag("Concrete"))
             {
                 PlayFootstepSound(concreteClips);
@@ -44,18 +46,21 @@ public class WalkSfx : MonoBehaviour
         }
     }
 
+    // function will play a random clip given an array of audio clips for a certain ground type
     void PlayFootstepSound(AudioClip[] footstepSounds)
     {
         if (footstepSounds != null &&  footstepSounds.Length > 0)
         {
+            //play a random clip from given array
             AudioClip randomClip = footstepSounds[Random.Range(0, footstepSounds.Length)];
+
+            // play audio clip with a randomised volume and pitch
             AudioSource.volume = Random.Range(0.5f, 1f);
             AudioSource.pitch = Random.Range(0.8f, 1f);
             AudioSource.PlayOneShot(randomClip);
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         Debug.DrawRay(RayStart.position, RayStart.transform.up * -1, Color.green);
