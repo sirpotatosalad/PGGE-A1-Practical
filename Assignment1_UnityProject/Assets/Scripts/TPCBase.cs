@@ -63,13 +63,12 @@ namespace PGGE
             // vector from camera to player, offset upwards to player's height
             Vector3 camToPlayer = (mPlayerTransform.position + Vector3.up * pHeight) - mCameraTransform.position;
 
-            //down vector from camera
-            Vector3 camDown = -mCameraTransform.up;
+            //up vector from camera
+            Vector3 camUp = mCameraTransform.up;
 
 
             Debug.DrawRay(mCameraTransform.position, camToPlayer, Color.red);
-            Debug.DrawRay(mCameraTransform.position, camDown, Color.green);
-            Debug.DrawRay(mCameraTransform.position, -camDown, Color.blue);
+            Debug.DrawRay(mCameraTransform.position, camUp, Color.green);
 
            // raycast from the camera to the player
             if (Physics.Raycast(mCameraTransform.position, camToPlayer, out hit, camToPlayer.magnitude))
@@ -86,8 +85,11 @@ namespace PGGE
                     //find the nearest point from playerTransform to wall colliders
                     Vector3 nearestPoint = hit.collider.ClosestPoint(mPlayerTransform.position);
 
+
                     // add offsetUp to move nearest point to player height
                     Vector3 targetHeight = nearestPoint + offsetUp;
+
+                    Vector3 playerToWall =targetHeight - (mPlayerTransform.position + Vector3.up * pHeight);
 
                     // set final position, moving x and z values toward the player to prevent clipping into the wall
                     // afterward, set height to targetHeight's y value
@@ -96,25 +98,16 @@ namespace PGGE
 
 
                 }
-            }
-
-            //downward raycast to check if ceiling is below the camera
-            if (Physics.Raycast(mCameraTransform.position, camDown, out ceilingHit, pHeight))
-            {
-                // check if ceiling is hit by raycast i.e., intersecting the camera
-                if (ceilingHit.collider.gameObject.layer == LayerMask.NameToLayer("Ceiling"))
+                else if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Ceiling"))
                 {
-                    Debug.Log("hit ceiling");
-                    // Adjust camera position below the ceiling
-                    Vector3 finalPos = new Vector3(mCameraTransform.position.x, ceilingHit.point.y, mCameraTransform.position.z);
+
+                    Vector3 finalPos = new Vector3(hit.point.x - hit.normal.x * 0.45f, hit.point.y, hit.point.z - hit.normal.z * 0.45f);
                     mCameraTransform.position = finalPos;
-
                 }
-
             }
 
             //short upward raycast for cases that the ceiling is slightly in/above the camera
-            if (Physics.Raycast(mCameraTransform.position, -camDown, out ceilingHit, 0.1f))
+            if (Physics.Raycast(mCameraTransform.position, camUp, out ceilingHit, 0.1f))
             {
                 // check if ceiling is hit by raycast i.e., intersecting the camera
                 if (ceilingHit.collider.gameObject.layer == LayerMask.NameToLayer("Ceiling") && ceilingHit.point.y > pHeight)
